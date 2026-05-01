@@ -924,7 +924,7 @@
                 <div class="variant-options" id="modal-variants"></div>
             </div>
 
-            <div style="margin-bottom:16px;">
+            <div id="modal-extras-section" style="margin-bottom:16px;">
                 <div class="variant-label" style="margin-bottom:8px;">Extras (opcional)</div>
                 <div id="modal-extras-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"></div>
             </div>
@@ -1223,7 +1223,7 @@
                         <div class="price-single">$190</div>
                         <div class="price-combo">COMBO PAPAS/REFRESCO <span>$260</span></div>
                     </div>
-                    <button class="add-to-cart-btn" onclick="openModal('Chicken Burger','Pollo crujiente, queso, aros de cebolla, Bbq',[{label:'Solo',price:190},{label:'Combo',price:260}])">
+                    <button class="add-to-cart-btn" onclick="openModal('Chicken Burger','Pollo crujiente, queso, aros de cebolla, Bbq',[{label:'Solo',price:190},{label:'Combo',price:260}],EXTRAS_LIST_POLLO)">
                         <span>🛒</span> Agregar al carrito
                     </button>
                 </div>
@@ -1237,7 +1237,7 @@
                         <div class="price-single">$170</div>
                         <div class="price-combo">COMBO PAPAS/REFRESCO <span>$200</span></div>
                     </div>
-                    <button class="add-to-cart-btn" onclick="openModal('Tenders','Tenders de pollo con papas y aderezo',[{label:'Solo',price:170},{label:'Combo',price:200}])">
+                    <button class="add-to-cart-btn" onclick="openModal('Tenders','Tenders de pollo con papas y aderezo',[{label:'Solo',price:170},{label:'Combo',price:200}],[])">
                         <span>🛒</span> Agregar al carrito
                     </button>
                 </div>
@@ -1251,7 +1251,7 @@
                         <div class="price-single">$170</div>
                         <div class="price-combo">COMBO PAPAS/REFRESCO <span>$200</span></div>
                     </div>
-                    <button class="add-to-cart-btn" onclick="openModal('Boneless','Boneless de pollo con papas y aderezo',[{label:'Solo',price:170},{label:'Combo',price:200}])">
+                    <button class="add-to-cart-btn" onclick="openModal('Boneless','Boneless de pollo con papas y aderezo',[{label:'Solo',price:170},{label:'Combo',price:200}],[])">
                         <span>🛒</span> Agregar al carrito
                     </button>
                 </div>
@@ -1312,27 +1312,21 @@
         </div>
 
         <h2 id="refrescos" class="section-title">Bebidas</h2>
-        <div class="extras-container">
-            <div class="extra-box">
-                <span class="extra-name">Refrescos</span>
-                <div style="display:flex;align-items:center;gap:12px;">
-                    <span class="extra-price">$50</span>
-                    <button class="add-to-cart-btn" style="width:auto;padding:6px 12px;font-size:0.75rem;margin:0;" onclick="addDirectToCart('Refresco', 50)">+ Agregar</button>
-                </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;background:var(--card-bg);padding:30px;border-radius:15px;border:1px solid var(--brand-tan);">
+            <div style="display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:12px;padding:16px;border:1px solid #333;border-radius:10px;text-align:center;">
+                <span class="extra-name" style="font-size:1rem;">Refrescos</span>
+                <span class="extra-price" style="font-size:1.2rem;">$50</span>
+                <button class="add-to-cart-btn" style="width:100%;padding:8px 12px;font-size:0.75rem;margin:0;" onclick="addDirectToCart('Refresco', 50)">+ Agregar</button>
             </div>
-            <div class="extra-box">
-                <span class="extra-name">Arizona</span>
-                <div style="display:flex;align-items:center;gap:12px;">
-                    <span class="extra-price">$50</span>
-                    <button class="add-to-cart-btn" style="width:auto;padding:6px 12px;font-size:0.75rem;margin:0;" onclick="addDirectToCart('Arizona', 50)">+ Agregar</button>
-                </div>
+            <div style="display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:12px;padding:16px;border:1px solid #333;border-radius:10px;text-align:center;">
+                <span class="extra-name" style="font-size:1rem;">Arizona</span>
+                <span class="extra-price" style="font-size:1.2rem;">$50</span>
+                <button class="add-to-cart-btn" style="width:100%;padding:8px 12px;font-size:0.75rem;margin:0;" onclick="addDirectToCart('Arizona', 50)">+ Agregar</button>
             </div>
-            <div class="extra-box">
-                <span class="extra-name">Agua</span>
-                <div style="display:flex;align-items:center;gap:12px;">
-                    <span class="extra-price">$30</span>
-                    <button class="add-to-cart-btn" style="width:auto;padding:6px 12px;font-size:0.75rem;margin:0;" onclick="addDirectToCart('Agua', 30)">+ Agregar</button>
-                </div>
+            <div style="display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:12px;padding:16px;border:1px solid #333;border-radius:10px;text-align:center;">
+                <span class="extra-name" style="font-size:1rem;">Agua</span>
+                <span class="extra-price" style="font-size:1.2rem;">$30</span>
+                <button class="add-to-cart-btn" style="width:100%;padding:8px 12px;font-size:0.75rem;margin:0;" onclick="addDirectToCart('Agua', 30)">+ Agregar</button>
             </div>
         </div>
 
@@ -1418,6 +1412,17 @@
             {name:'Sloppy Joe Extra', price:58}
         ];
 
+        // ===== EXTRAS FOR POLLO ITEMS — edit names/prices here =====
+        var EXTRAS_LIST_POLLO = [
+            {name:'Salsa Buffalo', price:20},
+            {name:'Salsa Ranch', price:20},
+            {name:'Salsa BBQ', price:20},
+            {name:'Salsa Chipotle', price:20},
+            {name:'Queso Extra', price:30},
+            {name:'Aros de cebolla', price:35},
+            {name:'Tocino', price:35}
+        ];
+
         // ===== ORDER TYPE / PICKUP =====
         function selectOrderType(type) {
             orderType = type;
@@ -1433,8 +1438,9 @@
         }
 
         // ===== MODAL =====
-        function openModal(name, desc, variants) {
+        function openModal(name, desc, variants, extrasList) {
             modalItem = { name: name, desc: desc, variants: variants };
+            var activeExtras = extrasList || EXTRAS_LIST;
             selectedVariant = variants[0];
             selectedExtras = [];
 
@@ -1461,26 +1467,32 @@
             });
 
             var grid = document.getElementById('modal-extras-grid');
+            var extrasSection = document.getElementById('modal-extras-section');
             grid.innerHTML = '';
-            EXTRAS_LIST.forEach(function(ex) {
-                var div = document.createElement('div');
-                div.className = 'modal-extra-item';
-                div.innerHTML = '<span class="extra-label">' + ex.name + '</span><span class="extra-p">+$' + ex.price + '</span>';
-                (function(extra, d) {
-                    d.onclick = function() {
-                        var idx = selectedExtras.findIndex(function(e){ return e.name === extra.name; });
-                        if (idx === -1) {
-                            selectedExtras.push(extra);
-                            d.classList.add('checked');
-                        } else {
-                            selectedExtras.splice(idx, 1);
-                            d.classList.remove('checked');
-                        }
-                        recalcModalPrice();
-                    };
-                })(ex, div);
-                grid.appendChild(div);
-            });
+            if (activeExtras.length === 0) {
+                extrasSection.style.display = 'none';
+            } else {
+                extrasSection.style.display = 'block';
+                activeExtras.forEach(function(ex) {
+                    var div = document.createElement('div');
+                    div.className = 'modal-extra-item';
+                    div.innerHTML = '<span class="extra-label">' + ex.name + '</span><span class="extra-p">+$' + ex.price + '</span>';
+                    (function(extra, d) {
+                        d.onclick = function() {
+                            var idx = selectedExtras.findIndex(function(e){ return e.name === extra.name; });
+                            if (idx === -1) {
+                                selectedExtras.push(extra);
+                                d.classList.add('checked');
+                            } else {
+                                selectedExtras.splice(idx, 1);
+                                d.classList.remove('checked');
+                            }
+                            recalcModalPrice();
+                        };
+                    })(ex, div);
+                    grid.appendChild(div);
+                });
+            }
 
             recalcModalPrice();
             var overlay = document.getElementById('variant-modal-overlay');
