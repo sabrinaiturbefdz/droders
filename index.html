@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=980, initial-scale=1.0">
     <title>Droders Burgers | Menú Oficial</title>
     <style>
         :root {
@@ -56,25 +56,11 @@
             gap: 20px;
         }
 
-        @media (max-width: 768px) {
-            #horario-badge { display: none; }
-        }
+        /* Horario in nav — always visible */
+        #horario-badge { display: block; }
 
-        @media (max-width: 768px) {
-            header {
-                flex-direction: row;
-                justify-content: space-between;
-                padding: 10px 20px;
-            }
-            .logo-container img { max-width: 80px; }
-            nav ul { gap: 10px; }
-            nav ul li a { font-size: 0.7rem; }
-        }
-
-        @media (max-width: 480px) {
-            header { flex-direction: column; text-align: center; }
-            nav ul { margin-top: 10px; flex-wrap: wrap; justify-content: center; }
-        }
+        /* Mobile horario — never needed now */
+        #horario-mobile { display: none !important; }
 
         nav ul li a {
             color: var(--white);
@@ -87,7 +73,7 @@
         nav ul li a:hover { color: var(--brand-tan); }
 
         .menu-container {
-            padding: 40px 20px;
+            padding: 16px 20px 40px;
             max-width: 1200px;
             margin: auto;
         }
@@ -98,15 +84,20 @@
             font-size: 2.8rem;
             text-transform: uppercase;
             margin-bottom: 30px;
-            margin-top: 60px;
+            margin-top: 30px;
             border-bottom: 2px solid var(--brand-red);
             display: block;
             scroll-margin-top: 100px;
         }
 
+        .section-title:first-child,
+        .menu-container > .section-title:first-of-type {
+            margin-top: 10px;
+        }
+
         .patty-info {
             text-align: center;
-            color: var(--white);
+            color: var(--card-bg);
             font-size: 1.4rem;
             margin-bottom: 50px;
             padding: 15px;
@@ -306,9 +297,9 @@
 
         #cart-drawer {
             position: fixed;
-            right: -480px;
+            right: -110vw;
             top: 0;
-            width: 100%;
+            width: 100vw;
             max-width: 460px;
             height: 100vh;
             background: #1a1a1a;
@@ -318,7 +309,10 @@
             flex-direction: column;
             transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
             overflow: hidden;
+            box-sizing: border-box;
         }
+
+        body.cart-open { overflow: hidden; }
 
         #cart-drawer.open { right: 0; }
 
@@ -731,10 +725,6 @@
             margin-top: 50px;
         }
 
-        @media (max-width: 768px) {
-            .section-title { font-size: 2rem; }
-            #cart-drawer { max-width: 100%; }
-        }
 
         .video-section {
             margin-top: 80px;
@@ -864,10 +854,10 @@
 </head>
 <body>
 
-    <div id="toast">✓ <span id="toast-text">Agregado al carrito</span></div>
+    <div id="toast">+ <span id="toast-text">Agregado al carrito</span></div>
 
     <button id="cart-fab" onclick="openCart()" title="Ver carrito">
-        🛒
+        <svg viewBox="0 0 24 24" fill="white" width="28" height="28" xmlns="http://www.w3.org/2000/svg"><path d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4H6zm0 10a1 1 0 010-2h12a1 1 0 010 2H6zm0 4a1 1 0 010-2h12a1 1 0 010 2H6z"/></svg>
         <div id="cart-badge"></div>
     </button>
 
@@ -875,14 +865,14 @@
 
     <div id="cart-drawer">
         <div class="cart-header">
-            <h2>🛒 Tu Orden</h2>
+            <h2>Tu Orden</h2>
             <button id="cart-close" onclick="closeCart()">✕</button>
         </div>
 
         <div id="cart-items">
             <div class="cart-empty" id="cart-empty-msg">
-                <div class="empty-icon">🍔</div>
-                <p>Tu carrito está vacío.<br>¡Agrega algo rico!</p>
+                <div class="empty-icon" style="font-size:3rem;margin-bottom:10px;">[ ]</div>
+                <p>Tu carrito esta vacio.<br>Agrega algo rico!</p>
             </div>
         </div>
 
@@ -936,7 +926,7 @@
 
             <div id="modal-dressings-section" style="margin-bottom:16px;display:none;">
                 <div class="variant-label" style="margin-bottom:4px;">Elige tu aderezo <span style="color:var(--brand-tan);">(máx. 2)</span></div>
-                <div id="modal-dressings-note" style="font-family:'Arial',sans-serif;font-size:0.78rem;color:#e8a87c;margin-bottom:8px;">⚠️ Puedes seleccionar hasta 2 aderezos.</div>
+                <div id="modal-dressings-note" style="font-family:'Arial',sans-serif;font-size:0.78rem;color:#e8a87c;margin-bottom:8px;">Puedes seleccionar hasta 2 aderezos.</div>
                 <div id="modal-dressings-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"></div>
             </div>
 
@@ -963,8 +953,14 @@
     </div>
 
     <header>
-        <div class="logo-container">
-            <img src="imagenes/logo-Photoroom.png" alt="Droders Burgers Logo">
+        <div class="logo-area" style="display:flex;align-items:center;">
+            <div class="logo-container">
+                <img src="imagenes/logo-Photoroom.png" alt="Droders Burgers Logo">
+            </div>
+            <div id="horario-mobile">
+                <div class="h-label">Horario</div>
+                <div class="h-time">Lun – Dom | 5:30–11:30 pm</div>
+            </div>
         </div>
         <nav>
             <ul>
@@ -974,9 +970,10 @@
                 <li><a href="#pollo">Pollo</a></li>
                 <li><a href="#extras">Extras</a></li>
                 <li><a href="#refrescos">Refrescos</a></li>
+                <li><a href="#testimonios">Testimonios</a></li>
             </ul>
             <div id="horario-badge" style="background:rgba(0,0,0,0.35);border:1px solid var(--brand-tan);border-radius:8px;padding:5px 12px;margin-left:18px;text-align:center;white-space:nowrap;">
-                <div style="font-family:'Arial Black',sans-serif;font-size:0.62rem;color:var(--brand-tan);text-transform:uppercase;letter-spacing:1px;">🕔 Horario</div>
+                <div style="font-family:'Arial Black',sans-serif;font-size:0.62rem;color:var(--brand-tan);text-transform:uppercase;letter-spacing:1px;">Horario</div>
                 <div style="font-family:'Arial',sans-serif;font-size:0.7rem;color:#fff;margin-top:1px;">Lun – Dom &nbsp;|&nbsp; 5:30 pm – 11:30 pm</div>
             </div>
         </nav>
@@ -993,7 +990,7 @@
                     <p class="description">Dedos de queso mozzarella acompañados con Chipotle Droder's, Ranch, Bbq o Buffalo.</p>
                     <div class="pricing"><div class="price-single">$100</div></div>
                     <button class="add-to-cart-btn" onclick="addDirectToCart('Dedos de queso', 100)">
-                        <span>🛒</span> Agregar al carrito
+                        Agregar al carrito
                     </button>
                 </div>
             </div>
@@ -1004,7 +1001,7 @@
                     <p class="description">Jalapeños empanizados rellenos de queso crema acompañados con Chipotle Droder's, Ranch, Bbq o Buffalo.</p>
                     <div class="pricing"><div class="price-single">$100</div></div>
                     <button class="add-to-cart-btn" onclick="addDirectToCart('Jalapeños', 100)">
-                        <span>🛒</span> Agregar al carrito
+                        Agregar al carrito
                     </button>
                 </div>
             </div>
@@ -1015,7 +1012,7 @@
                     <p class="description">Crujientes aros de cebolla empanizados, acompañados de Chipotle Droder's, Ranch, Bbq o Buffalo.</p>
                     <div class="pricing"><div class="price-single">$100</div></div>
                     <button class="add-to-cart-btn" onclick="addDirectToCart('Aros de cebolla', 100)">
-                        <span>🛒</span> Agregar al carrito
+                        Agregar al carrito
                     </button>
                 </div>
             </div>
@@ -1026,7 +1023,7 @@
                     <p class="description">Dedos de queso, jalapeños empanizados, aros de cebolla, papas a la francesa, acompañados de aderezos.</p>
                     <div class="pricing"><div class="price-single">$210</div></div>
                     <button class="add-to-cart-btn" onclick="addDirectToCart('Sampler Supreme', 210)">
-                        <span>🛒</span> Agregar al carrito
+                        Agregar al carrito
                     </button>
                 </div>
             </div>
@@ -1040,7 +1037,7 @@
                     <p class="description">Macarrones con queso, chilito Droder's y tocino.</p>
                     <div class="pricing"><div class="price-single">$80</div></div>
                     <button class="add-to-cart-btn" onclick="addDirectToCart('Macarrones c/ queso', 80)">
-                        <span>🛒</span> Agregar al carrito
+                        Agregar al carrito
                     </button>
                 </div>
             </div>
@@ -1055,7 +1052,7 @@
                     <p class="description">Nuestras clásicas papas fritas doradas y crujientes.</p>
                     <div class="pricing"><div class="price-single">$60</div></div>
                     <button class="add-to-cart-btn" onclick="addDirectToCart('Papas a la francesa', 60)">
-                        <span>🛒</span> Agregar al carrito
+                        Agregar al carrito
                     </button>
                 </div>
             </div>
@@ -1066,7 +1063,7 @@
                     <p class="description">Papas a la francesa con queso y Chipotle Droder's.</p>
                     <div class="pricing"><div class="price-single">$80</div></div>
                     <button class="add-to-cart-btn" onclick="addDirectToCart('Papas manchadas', 80)">
-                        <span>🛒</span> Agregar al carrito
+                        Agregar al carrito
                     </button>
                 </div>
             </div>
@@ -1077,7 +1074,7 @@
                     <p class="description">Papas a la francesa con queso y Sloppy Joe.</p>
                     <div class="pricing"><div class="price-single">$110</div></div>
                     <button class="add-to-cart-btn" onclick="addDirectToCart('Papas Dude\'s', 110)">
-                        <span>🛒</span> Agregar al carrito
+                        Agregar al carrito
                     </button>
                 </div>
             </div>
@@ -1088,7 +1085,7 @@
                     <p class="description">Papas a la francesa con queso, cebolla caramelizada, carne Angus y aguacate.</p>
                     <div class="pricing"><div class="price-single">$185</div></div>
                     <button class="add-to-cart-btn" onclick="addDirectToCart('Papas Caroline', 185)">
-                        <span>🛒</span> Agregar al carrito
+                        Agregar al carrito
                     </button>
                 </div>
             </div>
@@ -1111,7 +1108,7 @@
                         <div class="price-combo">COMBO PAPAS/REFRESCO <span>$245</span></div>
                     </div>
                     <button class="add-to-cart-btn" onclick="openModal('Classic Burger', 'Angus, queso, lechuga, tomate, cebolla, aguacate', [{label:'Solo', price:170},{label:'Combo', price:245}])">
-                        <span>🛒</span> Agregar al carrito
+                        Agregar al carrito
                     </button>
                 </div>
             </div>
@@ -1125,7 +1122,7 @@
                         <div class="price-combo">COMBO PAPAS/REFRESCO <span>$190</span></div>
                     </div>
                     <button class="add-to-cart-btn" onclick="openModal('Cheese Burger', 'Angus, queso amarillo, pan brioche', [{label:'Solo', price:120},{label:'Combo', price:190}])">
-                        <span>🛒</span> Agregar al carrito
+                        Agregar al carrito
                     </button>
                 </div>
             </div>
@@ -1139,7 +1136,7 @@
                         <div class="price-combo">COMBO PAPAS/REFRESCO <span>$245</span></div>
                     </div>
                     <button class="add-to-cart-btn" onclick="openModal('Cheese Doble', 'Doble Angus, doble queso, pan brioche', [{label:'Solo', price:175},{label:'Combo', price:245}])">
-                        <span>🛒</span> Agregar al carrito
+                        Agregar al carrito
                     </button>
                 </div>
             </div>
@@ -1156,7 +1153,7 @@
                         <div class="price-combo">COMBO PAPAS/REFRESCO <span>$260</span></div>
                     </div>
                     <button class="add-to-cart-btn" onclick="openModal('Juicy Bacon Jam', 'Angus, mermelada de tocino, pepinillos, costra de quesos', [{label:'Solo', price:190},{label:'Combo', price:260}])">
-                        <span>🛒</span> Agregar al carrito
+                        Agregar al carrito
                     </button>
                 </div>
             </div>
@@ -1170,7 +1167,7 @@
                         <div class="price-combo">COMBO PAPAS/REFRESCO <span>$225</span></div>
                     </div>
                     <button class="add-to-cart-btn" onclick="openModal('Americana', 'Angus, queso, cebolla caramelizada, costra de quesos', [{label:'Solo', price:155},{label:'Combo', price:225}])">
-                        <span>🛒</span> Agregar al carrito
+                        Agregar al carrito
                     </button>
                 </div>
             </div>
@@ -1184,7 +1181,7 @@
                         <div class="price-combo">COMBO PAPAS/REFRESCO <span>$280</span></div>
                     </div>
                     <button class="add-to-cart-btn" onclick="openModal('Western', 'Angus, aros de cebolla, tocino, Bbq', [{label:'Solo', price:210},{label:'Combo', price:280}])">
-                        <span>🛒</span> Agregar al carrito
+                        Agregar al carrito
                     </button>
                 </div>
             </div>
@@ -1198,7 +1195,7 @@
                         <div class="price-combo">COMBO PAPAS/REFRESCO <span>$255</span></div>
                     </div>
                     <button class="add-to-cart-btn" onclick="openModal('Avocado Supreme', 'Angus, queso, cebolla caramelizada, aguacate', [{label:'Solo', price:185},{label:'Combo', price:255}])">
-                        <span>🛒</span> Agregar al carrito
+                        Agregar al carrito
                     </button>
                 </div>
             </div>
@@ -1212,7 +1209,7 @@
                         <div class="price-combo">COMBO PAPAS/REFRESCO <span>$280</span></div>
                     </div>
                     <button class="add-to-cart-btn" onclick="openModal('Tropicana', 'Angus, piña asada, tocino, Bbq', [{label:'Solo', price:210},{label:'Combo', price:280}])">
-                        <span>🛒</span> Agregar al carrito
+                        Agregar al carrito
                     </button>
                 </div>
             </div>
@@ -1226,7 +1223,7 @@
                         <div class="price-combo">COMBO PAPAS/REFRESCO <span>$225</span></div>
                     </div>
                     <button class="add-to-cart-btn" onclick="openModal('Sloppy Joe', 'Dudes chili, queso, cebolla caramelizada', [{label:'Solo', price:155},{label:'Combo', price:225}])">
-                        <span>🛒</span> Agregar al carrito
+                        Agregar al carrito
                     </button>
                 </div>
             </div>
@@ -1244,7 +1241,7 @@
                         <div class="price-combo">COMBO PAPAS/REFRESCO <span>$260</span></div>
                     </div>
                     <button class="add-to-cart-btn" onclick="openModal('Chicken Burger','Pollo crujiente, queso, aros de cebolla, Bbq',[{label:'Solo',price:190},{label:'Combo',price:260}],EXTRAS_LIST_POLLO)">
-                        <span>🛒</span> Agregar al carrito
+                        Agregar al carrito
                     </button>
                 </div>
             </div>
@@ -1258,7 +1255,7 @@
                         <div class="price-combo">COMBO PAPAS/REFRESCO <span>$200</span></div>
                     </div>
                     <button class="add-to-cart-btn" onclick="openModal('Tenders','Tenders de pollo con papas y aderezo',[{label:'Solo',price:170},{label:'Combo',price:200}],[],true)">
-                        <span>🛒</span> Agregar al carrito
+                        Agregar al carrito
                     </button>
                 </div>
             </div>
@@ -1272,7 +1269,7 @@
                         <div class="price-combo">COMBO PAPAS/REFRESCO <span>$200</span></div>
                     </div>
                     <button class="add-to-cart-btn" onclick="openModal('Boneless','Boneless de pollo con papas y aderezo',[{label:'Solo',price:170},{label:'Combo',price:200}],[],true)">
-                        <span>🛒</span> Agregar al carrito
+                        Agregar al carrito
                     </button>
                 </div>
             </div>
@@ -1332,21 +1329,27 @@
         </div>
 
         <h2 id="refrescos" class="section-title">Bebidas</h2>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;background:var(--card-bg);padding:30px;border-radius:15px;border:1px solid var(--brand-tan);">
-            <div style="display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:12px;padding:16px;border:1px solid #333;border-radius:10px;text-align:center;">
-                <span class="extra-name" style="font-size:1rem;">Refrescos</span>
-                <span class="extra-price" style="font-size:1.2rem;">$50</span>
-                <button class="add-to-cart-btn" style="width:100%;padding:8px 12px;font-size:0.75rem;margin:0;" onclick="openFlavorModal('refresco')">+ Agregar</button>
+        <div style="background:var(--card-bg);padding:30px;border-radius:15px;border:1px solid var(--brand-tan);">
+            <div class="extra-box">
+                <span class="extra-name">Refrescos</span>
+                <div style="display:flex;align-items:center;gap:12px;">
+                    <span class="extra-price">$50</span>
+                    <button class="add-to-cart-btn" style="width:auto;padding:6px 12px;font-size:0.75rem;margin:0;" onclick="openFlavorModal('refresco')">+ Agregar</button>
+                </div>
             </div>
-            <div style="display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:12px;padding:16px;border:1px solid #333;border-radius:10px;text-align:center;">
-                <span class="extra-name" style="font-size:1rem;">Arizona</span>
-                <span class="extra-price" style="font-size:1.2rem;">$50</span>
-                <button class="add-to-cart-btn" style="width:100%;padding:8px 12px;font-size:0.75rem;margin:0;" onclick="openFlavorModal('arizona')">+ Agregar</button>
+            <div class="extra-box">
+                <span class="extra-name">Arizona</span>
+                <div style="display:flex;align-items:center;gap:12px;">
+                    <span class="extra-price">$50</span>
+                    <button class="add-to-cart-btn" style="width:auto;padding:6px 12px;font-size:0.75rem;margin:0;" onclick="openFlavorModal('arizona')">+ Agregar</button>
+                </div>
             </div>
-            <div style="display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:12px;padding:16px;border:1px solid #333;border-radius:10px;text-align:center;">
-                <span class="extra-name" style="font-size:1rem;">Agua</span>
-                <span class="extra-price" style="font-size:1.2rem;">$30</span>
-                <button class="add-to-cart-btn" style="width:100%;padding:8px 12px;font-size:0.75rem;margin:0;" onclick="addDirectToCart('Agua', 30)">+ Agregar</button>
+            <div class="extra-box" style="border-bottom:none;">
+                <span class="extra-name">Agua</span>
+                <div style="display:flex;align-items:center;gap:12px;">
+                    <span class="extra-price">$30</span>
+                    <button class="add-to-cart-btn" style="width:auto;padding:6px 12px;font-size:0.75rem;margin:0;" onclick="addDirectToCart('Agua', 30)">+ Agregar</button>
+                </div>
             </div>
         </div>
 
@@ -1363,12 +1366,12 @@
 
     <section style="margin-top:80px;background:#1a1a1a;padding:40px;border-left:6px solid #e31b23;display:flex;align-items:center;justify-content:space-between;gap:30px;flex-wrap:wrap;">
         <div style="flex:1; min-width:250px; text-align:left;">
-            <h2 style="color:#e31b23; margin-bottom:15px;">🔥 This Week's Special</h2>
+            <h2 style="color:#e31b23; margin-bottom:15px;">Esta semana: Especial</h2>
             <p style="font-size:1.2rem; color:#fff; margin-bottom:10px;">Juicy Bacon Jam Burger + Papas + Refresco</p>
             <p style="font-size:1.5rem; font-weight:bold; color:#fff;">SOLO $260</p>
-            <p style="color:#ccc; margin-top:15px;">Disponible por tiempo limitado — ¡no te lo pierdas!</p>
-            <button class="add-to-cart-btn" style="max-width:260px;margin-top:20px;" onclick="addDirectToCart('🔥 Special: Juicy Bacon Jam Combo', 260)">
-                <span>🛒</span> Agregar especial al carrito
+            <p style="color:#ccc; margin-top:15px;">Disponible por tiempo limitado — no te lo pierdas!</p>
+            <button class="add-to-cart-btn" style="max-width:260px;margin-top:20px;" onclick="addDirectToCart('Special: Juicy Bacon Jam Combo', 260)">
+                Agregar especial al carrito
             </button>
         </div>
         <div style="flex:1; min-width:250px; text-align:center;">
@@ -1377,7 +1380,7 @@
     </section>
 
     <section id="videos" class="video-section">
-        <h2 class="section-title">🔥 Síguenos en acción</h2>
+        <h2 class="section-title">Siguenos en accion</h2>
         <p style="text-align:center; color:#ccc; margin-bottom:30px;">Haz hover para ver y da click para abrir Instagram</p>
         <div class="video-grid">
             <div class="video-card" style="grid-column: span 2;">
@@ -1403,9 +1406,9 @@
 
     <script async src="//www.instagram.com/embed.js"></script>
 
-    <section style="padding:60px 20px; background:#151515; text-align:center;">
-        <h2 style="color:#e31b23;">💬 Testimonios</h2>
-        <p style="color:#ccc; margin-top:10px;">Lo que dicen nuestros clientes reales 🔥</p>
+    <section id="testimonios" style="padding:60px 20px; background:#151515; text-align:center;">
+        <h2 style="color:#e31b23;">Testimonios</h2>
+        <p style="color:#ccc; margin-top:10px;">Lo que dicen nuestros clientes reales</p>
         <div style="max-width:600px; margin:30px auto;">
             <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/DIPnlA5Pxec/" data-instgrm-version="14" style="background:#FFF; border:0; border-radius:12px; width:100%; max-width:540px;"></blockquote>
         </div>
@@ -1416,13 +1419,23 @@
     </section>
 
     <footer style="background-color:#c1121f;color:#fff;padding:25px;text-align:center;margin-top:60px;border-top:5px solid #000;box-shadow:0 -4px 10px rgba(0,0,0,0.3);">
-        <p style="font-size:18px; font-weight:bold;">Freaking Burgers, no la típica hamburguesa.</p>
-        <p>☎️ 8126552880</p>
-        <p>📍 Lomas Mederos - Mty Sur.</p>
-        <p>🕟 Lu a Sab de 5:30 pm - 11:30 pm</p>
-        <div style="margin-top:15px;">
-            <a href="https://www.instagram.com/drodersburgersmx?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" style="color:#fff; margin:0 10px; text-decoration:none; font-weight:bold;">Instagram</a>
-            <a href="https://www.threads.com/@drodersburgersmx?xmt=AQF0AAqObLp34MYY6qyHgRlaqcDx5BveYgmuvdR4cS8pgnU" target="_blank" style="color:#fff; margin:0 10px; text-decoration:none; font-weight:bold;">Threads</a>
+        <p style="font-size:18px; font-weight:bold;">Freaking Burgers, no la tipica hamburguesa.</p>
+        <p>Tel: 8126552880</p>
+        <p>Ubicacion: Lomas Mederos - Mty Sur.</p>
+        <p>Horario: Lu a Dom de 5:30 pm - 11:30 pm</p>
+        <div style="margin-top:20px;display:flex;justify-content:center;gap:24px;align-items:center;">
+            <a href="https://www.instagram.com/drodersburgersmx?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" style="color:#fff;text-decoration:none;display:flex;align-items:center;gap:8px;background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.3);border-radius:10px;padding:10px 18px;transition:background 0.2s;" onmouseover="this.style.background='rgba(0,0,0,0.45)'" onmouseout="this.style.background='rgba(0,0,0,0.25)'">
+                <!-- Instagram SVG -->
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                <span style="font-family:'Arial Black',sans-serif;font-size:0.85rem;font-weight:bold;">Instagram</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="https://www.threads.com/@drodersburgersmx?xmt=AQF0AAqObLp34MYY6qyHgRlaqcDx5BveYgmuvdR4cS8pgnU" target="_blank" style="color:#fff;text-decoration:none;display:flex;align-items:center;gap:8px;background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.3);border-radius:10px;padding:10px 18px;transition:background 0.2s;" onmouseover="this.style.background='rgba(0,0,0,0.45)'" onmouseout="this.style.background='rgba(0,0,0,0.25)'">
+                <!-- Threads SVG -->
+                <svg width="22" height="22" viewBox="0 0 192 192" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M141.537 88.988a66.667 66.667 0 0 0-2.518-1.143c-1.482-27.307-16.403-42.94-41.457-43.1h-.34c-14.986 0-27.449 6.396-35.12 18.036l13.779 9.452c5.73-8.695 14.724-10.548 21.348-10.548h.229c8.249.053 14.474 2.452 18.503 7.129 2.932 3.405 4.893 8.111 5.864 14.05-7.314-1.243-15.224-1.626-23.68-1.14-23.82 1.371-39.134 15.264-38.105 34.568.522 9.792 5.4 18.216 13.735 23.719 7.047 4.652 16.124 6.927 25.557 6.412 12.458-.683 22.231-5.436 29.049-14.127 5.178-6.6 8.453-15.153 9.879-25.93 5.943 3.583 10.337 8.298 12.767 13.966 4.132 9.635 4.373 25.468-8.546 38.318-11.319 11.24-24.955 16.107-45.484 16.253-22.726-.163-39.836-7.448-50.884-21.658C91.619 134.71 86 118.469 85.781 97.926c.219-20.543 5.838-36.784 16.692-48.254C113.52 38.413 130.63 31.128 153.356 30.965c22.894.164 40.28 7.494 51.694 21.784 5.606 6.972 9.815 15.717 12.511 26.035l16.28-4.382c-3.243-12.283-8.581-22.947-15.98-31.762C203.661 23.912 182.491 14.2 153.48 14h-.338c-29.087.203-50.415 10.055-63.399 29.291C79.057 57.21 73.137 76.7 72.912 97.926l.003.12c.224 21.224 6.144 40.715 17.172 54.635 12.983 16.241 32.154 24.621 57.184 24.875H148c24.917-.241 42.641-9.001 55.1-26.748 10.26-14.496 12.328-31.988 5.97-46.95-4.8-11.198-14.027-20.398-27.533-27.17zM96.68 131.22c-10.444.598-21.316-4.104-21.862-14.234-.4-7.519 5.33-15.913 22.618-16.916 1.98-.114 3.921-.169 5.824-.169 6.76 0 13.074.651 18.77 1.899-2.137 26.675-15.404 28.82-25.35 29.42z"/></svg>
+                <span style="font-family:'Arial Black',sans-serif;font-size:0.85rem;font-weight:bold;">Threads</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
         </div>
     </footer>
 
@@ -1518,10 +1531,10 @@
                         if (idx === -1) {
                             if (selectedDressings.length >= MAX_DRESSINGS) {
                                 document.getElementById('modal-dressings-note').style.color = '#e31b23';
-                                document.getElementById('modal-dressings-note').textContent = '⛔ Solo puedes elegir hasta 2 aderezos.';
+                                document.getElementById('modal-dressings-note').textContent = 'Solo puedes elegir hasta 2 aderezos.';
                                 setTimeout(function(){
                                     document.getElementById('modal-dressings-note').style.color = '#e8a87c';
-                                    document.getElementById('modal-dressings-note').textContent = '⚠️ Puedes seleccionar hasta 2 aderezos.';
+                                    document.getElementById('modal-dressings-note').textContent = 'Puedes seleccionar hasta 2 aderezos.';
                                 }, 2000);
                                 return;
                             }
@@ -1738,7 +1751,7 @@
                         var drDiv = document.createElement('div');
                         drDiv.className = 'cart-item-variant';
                         drDiv.style.color = '#e8a87c';
-                        drDiv.textContent = '🥣 Aderezo: ' + item.dressings.join(', ');
+                        drDiv.textContent = 'Aderezo: ' + item.dressings.join(', ');
                         infoDiv.appendChild(drDiv);
                     }
 
@@ -1844,7 +1857,7 @@
 
                 // Dressings
                 if (item.dressings && item.dressings.length > 0) {
-                    msg += '   🥣 Aderezo: ' + item.dressings.join(', ') + '\n';
+                    msg += '   Aderezo: ' + item.dressings.join(', ') + '\n';
                 }
 
                 // Extras — each on its own indented line
@@ -1882,7 +1895,7 @@
             'Coca Regular','Pepsi Regular','Pepsi Light','Manzanita','Mirinda','Seven Up','Squirt'
         ];
         var ARIZONA_FLAVORS = [
-            'Sandía','Mango','Kiwi Fresa','Té Verde'
+            'Arizona Sandía','Arizona Mango','Arizona Kiwi Fresa','Arizona Té Verde'
         ];
 
         function openFlavorModal(type) {
