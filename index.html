@@ -1854,27 +1854,24 @@
             msg += 'ORDEN:\n';
 
             cart.forEach(function(item) {
-                var basePrice = item.basePrice || item.price;
-                var itemLabel = item.name + (item.variant ? ' (' + item.variant + ')' : '');
-                msg += '- ' + itemLabel + '  $' + basePrice + ' x' + item.qty + ' = $' + (basePrice * item.qty) + '\n';
+    var basePrice = item.basePrice || item.price;
+    var itemLabel = '*' + item.name + (item.variant ? ' (' + item.variant + ')' : '') + '*';
+    msg += '\n- ' + itemLabel + '  $' + basePrice + ' x' + item.qty + ' = $' + (basePrice * item.qty) + '\n';
 
-                // Dressings
-                if (item.dressings && item.dressings.length > 0) {
-                    msg += '   Aderezo: ' + item.dressings.join(', ') + '\n';
-                }
+    if (item.dressings && item.dressings.length > 0) {
+        msg += '   Aderezo: ' + item.dressings.join(', ') + '\n';
+    }
 
-                // Extras — each on its own indented line
-                if (item.extras && item.extras.length > 0) {
-                    item.extras.forEach(function(ex) {
-                        msg += '   + ' + ex.name + '  $' + ex.price + ' x' + item.qty + ' = $' + (ex.price * item.qty) + '\n';
-                    });
-                }
+    if (item.extras && item.extras.length > 0) {
+        item.extras.forEach(function(ex) {
+            msg += '   + ' + ex.name + '  $' + ex.price + ' x' + item.qty + ' = $' + (ex.price * item.qty) + '\n';
+        });
+     }
 
-                // Note per item
-                if (item.note) msg += '   Nota: ' + item.note + '\n';
-            });
+          if (item.note) msg += '   _>>' + item.note + '_\n';
+        });
 
-            msg += '\nTOTAL: $' + total + ' MXN';
+            msg += '\n*TOTAL: $' + total + ' MXN*';
             msg += '\n\nGracias!';
 
             var phone = '528126552880';
