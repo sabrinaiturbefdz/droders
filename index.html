@@ -17,7 +17,7 @@
 
         body {
             font-family: 'Arial Black', sans-serif;
-            background-color: var(--dark-bg);
+            background-color: var(--white);
             color: var(--white);
             margin: 0;
             padding: 0;
@@ -42,12 +42,22 @@
             display: block;
         }
 
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 0;
+        }
+
         nav ul {
             list-style: none;
             margin: 0;
             padding: 0;
             display: flex;
             gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            #horario-badge { display: none; }
         }
 
         @media (max-width: 768px) {
@@ -924,6 +934,12 @@
                 <div class="variant-options" id="modal-variants"></div>
             </div>
 
+            <div id="modal-dressings-section" style="margin-bottom:16px;display:none;">
+                <div class="variant-label" style="margin-bottom:4px;">Elige tu aderezo <span style="color:var(--brand-tan);">(máx. 2)</span></div>
+                <div id="modal-dressings-note" style="font-family:'Arial',sans-serif;font-size:0.78rem;color:#e8a87c;margin-bottom:8px;">⚠️ Puedes seleccionar hasta 2 aderezos.</div>
+                <div id="modal-dressings-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"></div>
+            </div>
+
             <div id="modal-extras-section" style="margin-bottom:16px;">
                 <div class="variant-label" style="margin-bottom:8px;">Extras (opcional)</div>
                 <div id="modal-extras-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"></div>
@@ -959,6 +975,10 @@
                 <li><a href="#extras">Extras</a></li>
                 <li><a href="#refrescos">Refrescos</a></li>
             </ul>
+            <div id="horario-badge" style="background:rgba(0,0,0,0.35);border:1px solid var(--brand-tan);border-radius:8px;padding:5px 12px;margin-left:18px;text-align:center;white-space:nowrap;">
+                <div style="font-family:'Arial Black',sans-serif;font-size:0.62rem;color:var(--brand-tan);text-transform:uppercase;letter-spacing:1px;">🕔 Horario</div>
+                <div style="font-family:'Arial',sans-serif;font-size:0.7rem;color:#fff;margin-top:1px;">Lun – Dom &nbsp;|&nbsp; 5:30 pm – 11:30 pm</div>
+            </div>
         </nav>
     </header>
 
@@ -1237,7 +1257,7 @@
                         <div class="price-single">$170</div>
                         <div class="price-combo">COMBO PAPAS/REFRESCO <span>$200</span></div>
                     </div>
-                    <button class="add-to-cart-btn" onclick="openModal('Tenders','Tenders de pollo con papas y aderezo',[{label:'Solo',price:170},{label:'Combo',price:200}],[])">
+                    <button class="add-to-cart-btn" onclick="openModal('Tenders','Tenders de pollo con papas y aderezo',[{label:'Solo',price:170},{label:'Combo',price:200}],[],true)">
                         <span>🛒</span> Agregar al carrito
                     </button>
                 </div>
@@ -1251,7 +1271,7 @@
                         <div class="price-single">$170</div>
                         <div class="price-combo">COMBO PAPAS/REFRESCO <span>$200</span></div>
                     </div>
-                    <button class="add-to-cart-btn" onclick="openModal('Boneless','Boneless de pollo con papas y aderezo',[{label:'Solo',price:170},{label:'Combo',price:200}],[])">
+                    <button class="add-to-cart-btn" onclick="openModal('Boneless','Boneless de pollo con papas y aderezo',[{label:'Solo',price:170},{label:'Combo',price:200}],[],true)">
                         <span>🛒</span> Agregar al carrito
                     </button>
                 </div>
@@ -1316,12 +1336,12 @@
             <div style="display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:12px;padding:16px;border:1px solid #333;border-radius:10px;text-align:center;">
                 <span class="extra-name" style="font-size:1rem;">Refrescos</span>
                 <span class="extra-price" style="font-size:1.2rem;">$50</span>
-                <button class="add-to-cart-btn" style="width:100%;padding:8px 12px;font-size:0.75rem;margin:0;" onclick="addDirectToCart('Refresco', 50)">+ Agregar</button>
+                <button class="add-to-cart-btn" style="width:100%;padding:8px 12px;font-size:0.75rem;margin:0;" onclick="openFlavorModal('refresco')">+ Agregar</button>
             </div>
             <div style="display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:12px;padding:16px;border:1px solid #333;border-radius:10px;text-align:center;">
                 <span class="extra-name" style="font-size:1rem;">Arizona</span>
                 <span class="extra-price" style="font-size:1.2rem;">$50</span>
-                <button class="add-to-cart-btn" style="width:100%;padding:8px 12px;font-size:0.75rem;margin:0;" onclick="addDirectToCart('Arizona', 50)">+ Agregar</button>
+                <button class="add-to-cart-btn" style="width:100%;padding:8px 12px;font-size:0.75rem;margin:0;" onclick="openFlavorModal('arizona')">+ Agregar</button>
             </div>
             <div style="display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:12px;padding:16px;border:1px solid #333;border-radius:10px;text-align:center;">
                 <span class="extra-name" style="font-size:1rem;">Agua</span>
@@ -1368,6 +1388,19 @@
             </div>
         </div>
     </section>
+    <!-- FLAVOR PICKER MODAL -->
+    <div id="flavor-modal-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:5000;align-items:center;justify-content:center;backdrop-filter:blur(3px);">
+        <div id="flavor-modal" style="background:#1e1e1e;border:2px solid var(--brand-red);border-radius:16px;padding:28px;max-width:380px;width:90%;max-height:85vh;overflow-y:auto;animation:modalIn 0.25s ease;">
+            <h3 id="flavor-modal-title" style="color:var(--brand-red);text-transform:uppercase;margin:0 0 8px;font-size:1.3rem;"></h3>
+            <p style="color:#aaa;font-family:'Arial',sans-serif;font-size:0.85rem;margin:0 0 16px;">Selecciona un sabor para continuar</p>
+            <div id="flavor-list" style="display:flex;flex-direction:column;gap:8px;"></div>
+            <div class="modal-buttons" style="margin-top:20px;">
+                <button class="modal-cancel" onclick="closeFlavorModal()">Cancelar</button>
+                <button class="modal-confirm" id="flavor-confirm-btn" onclick="confirmFlavor()" style="opacity:0.5;cursor:not-allowed;">Agregar al carrito</button>
+            </div>
+        </div>
+    </div>
+
     <script async src="//www.instagram.com/embed.js"></script>
 
     <section style="padding:60px 20px; background:#151515; text-align:center;">
@@ -1399,8 +1432,12 @@
         var modalItem = null;
         var selectedVariant = null;
         var selectedExtras = [];
+        var selectedDressings = [];
         var orderType = 'llevar';
         var pickupTime = 'Ahora';
+
+        var DRESSINGS_LIST = ['Chipotle','BBQ','Buffalo','Ranch'];
+        var MAX_DRESSINGS = 2;
 
         var EXTRAS_LIST = [
             {name:'Cebolla Caramelizada', price:30},
@@ -1438,11 +1475,12 @@
         }
 
         // ===== MODAL =====
-        function openModal(name, desc, variants, extrasList) {
+        function openModal(name, desc, variants, extrasList, hasDressings) {
             modalItem = { name: name, desc: desc, variants: variants };
             var activeExtras = extrasList || EXTRAS_LIST;
             selectedVariant = variants[0];
             selectedExtras = [];
+            selectedDressings = [];
 
             document.getElementById('modal-item-name').textContent = name;
             document.getElementById('modal-item-desc').textContent = desc;
@@ -1453,7 +1491,6 @@
             variants.forEach(function(v, i) {
                 var btn = document.createElement('button');
                 btn.className = 'variant-option' + (i === 0 ? ' selected' : '');
-                // Show label + price clearly in the button
                 btn.textContent = v.label + ' — $' + v.price;
                 (function(variant, b) {
                     b.onclick = function() {
@@ -1465,6 +1502,41 @@
                 })(v, btn);
                 variantsEl.appendChild(btn);
             });
+
+            // Dressings section
+            var dressingSection = document.getElementById('modal-dressings-section');
+            var dressingGrid = document.getElementById('modal-dressings-grid');
+            dressingGrid.innerHTML = '';
+            if (hasDressings) {
+                dressingSection.style.display = 'block';
+                DRESSINGS_LIST.forEach(function(dr) {
+                    var div = document.createElement('div');
+                    div.className = 'modal-extra-item';
+                    div.innerHTML = '<span class="extra-label">' + dr + '</span><span class="extra-p">Gratis</span>';
+                    div.onclick = function() {
+                        var idx = selectedDressings.indexOf(dr);
+                        if (idx === -1) {
+                            if (selectedDressings.length >= MAX_DRESSINGS) {
+                                document.getElementById('modal-dressings-note').style.color = '#e31b23';
+                                document.getElementById('modal-dressings-note').textContent = '⛔ Solo puedes elegir hasta 2 aderezos.';
+                                setTimeout(function(){
+                                    document.getElementById('modal-dressings-note').style.color = '#e8a87c';
+                                    document.getElementById('modal-dressings-note').textContent = '⚠️ Puedes seleccionar hasta 2 aderezos.';
+                                }, 2000);
+                                return;
+                            }
+                            selectedDressings.push(dr);
+                            div.classList.add('checked');
+                        } else {
+                            selectedDressings.splice(idx, 1);
+                            div.classList.remove('checked');
+                        }
+                    };
+                    dressingGrid.appendChild(div);
+                });
+            } else {
+                dressingSection.style.display = 'none';
+            }
 
             var grid = document.getElementById('modal-extras-grid');
             var extrasSection = document.getElementById('modal-extras-section');
@@ -1513,28 +1585,32 @@
             modalItem = null;
             selectedVariant = null;
             selectedExtras = [];
+            selectedDressings = [];
         }
 
         function confirmAddToCart() {
             if (!selectedVariant) selectedVariant = modalItem.variants[0];
             var note = document.getElementById('modal-item-note').value.trim();
             var basePrice = selectedVariant.price;
-            var baseLabel = selectedVariant.label; // "Solo" or "Combo" — no price embedded
+            var baseLabel = selectedVariant.label;
             var extras = selectedExtras.map(function(e){ return {name: e.name, price: e.price}; });
             var name = modalItem.name;
+            var dressings = selectedDressings.slice();
             closeModal();
-            addToCart(name, baseLabel, basePrice, extras, note);
+            addToCart(name, baseLabel, basePrice, extras, note, dressings);
         }
 
         // ===== ADD DIRECT =====
         function addDirectToCart(name, price) {
-            addToCart(name, '', price, [], '');
+            addToCart(name, '', price, [], '', []);
         }
 
         // ===== CORE ADD =====
-        function addToCart(name, variant, basePrice, extras, note) {
+        function addToCart(name, variant, basePrice, extras, note, dressings) {
+            dressings = dressings || [];
             var extrasKey = extras.map(function(e){ return e.name; }).join(',');
-            var key = name + '||' + variant + '||' + extrasKey + '||' + (note || '');
+            var dressingKey = dressings.join(',');
+            var key = name + '||' + variant + '||' + extrasKey + '||' + (note || '') + '||' + dressingKey;
             var existing = null;
             for (var i = 0; i < cart.length; i++) {
                 if (cart[i].key === key) { existing = cart[i]; break; }
@@ -1551,6 +1627,7 @@
                     extras: extras,
                     price: totalPrice,
                     note: note || '',
+                    dressings: dressings,
                     qty: 1
                 });
             }
@@ -1657,6 +1734,14 @@
                         infoDiv.appendChild(varDiv);
                     }
 
+                    if (item.dressings && item.dressings.length > 0) {
+                        var drDiv = document.createElement('div');
+                        drDiv.className = 'cart-item-variant';
+                        drDiv.style.color = '#e8a87c';
+                        drDiv.textContent = '🥣 Aderezo: ' + item.dressings.join(', ');
+                        infoDiv.appendChild(drDiv);
+                    }
+
                     var breakdown = document.createElement('div');
                     breakdown.style.cssText = 'margin-top:8px;border-top:1px solid #2e2e2e;padding-top:8px;';
 
@@ -1754,9 +1839,13 @@
 
             cart.forEach(function(item) {
                 var basePrice = item.basePrice || item.price;
-                // Name + variant label (no price in label), then price x qty = subtotal
                 var itemLabel = item.name + (item.variant ? ' (' + item.variant + ')' : '');
                 msg += '- ' + itemLabel + '  $' + basePrice + ' x' + item.qty + ' = $' + (basePrice * item.qty) + '\n';
+
+                // Dressings
+                if (item.dressings && item.dressings.length > 0) {
+                    msg += '   🥣 Aderezo: ' + item.dressings.join(', ') + '\n';
+                }
 
                 // Extras — each on its own indented line
                 if (item.extras && item.extras.length > 0) {
@@ -1780,6 +1869,65 @@
         document.getElementById('variant-modal-overlay').addEventListener('click', function(e) {
             if (e.target === this) closeModal();
         });
+
+        document.getElementById('flavor-modal-overlay').addEventListener('click', function(e) {
+            if (e.target === this) closeFlavorModal();
+        });
+
+        // ===== FLAVOR MODAL =====
+        var flavorModalData = null;
+        var selectedFlavor = null;
+
+        var REFRESCO_FLAVORS = [
+            'Coca Regular','Pepsi Regular','Pepsi Light','Manzanita','Mirinda','Seven Up','Squirt'
+        ];
+        var ARIZONA_FLAVORS = [
+            'Sandía','Mango','Kiwi Fresa','Té Verde'
+        ];
+
+        function openFlavorModal(type) {
+            selectedFlavor = null;
+            var isArizona = type === 'arizona';
+            flavorModalData = { type: type, price: 50, baseName: isArizona ? 'Arizona' : 'Refresco' };
+            document.getElementById('flavor-modal-title').textContent = isArizona ? 'Arizona — Elige sabor' : 'Refresco — Elige sabor';
+            var flavors = isArizona ? ARIZONA_FLAVORS : REFRESCO_FLAVORS;
+            var list = document.getElementById('flavor-list');
+            list.innerHTML = '';
+            var confirmBtn = document.getElementById('flavor-confirm-btn');
+            confirmBtn.style.opacity = '0.5';
+            confirmBtn.style.cursor = 'not-allowed';
+
+            flavors.forEach(function(fl) {
+                var div = document.createElement('div');
+                div.className = 'modal-extra-item';
+                div.innerHTML = '<span class="extra-label">' + fl + '</span><span class="extra-p">$50</span>';
+                div.onclick = function() {
+                    list.querySelectorAll('.modal-extra-item').forEach(function(x){ x.classList.remove('checked'); });
+                    div.classList.add('checked');
+                    selectedFlavor = fl;
+                    confirmBtn.style.opacity = '1';
+                    confirmBtn.style.cursor = 'pointer';
+                };
+                list.appendChild(div);
+            });
+
+            var overlay = document.getElementById('flavor-modal-overlay');
+            overlay.style.display = 'flex';
+        }
+
+        function closeFlavorModal() {
+            document.getElementById('flavor-modal-overlay').style.display = 'none';
+            flavorModalData = null;
+            selectedFlavor = null;
+        }
+
+        function confirmFlavor() {
+            if (!selectedFlavor || !flavorModalData) return;
+            var name = flavorModalData.baseName + ' ' + selectedFlavor;
+            var price = flavorModalData.price;
+            closeFlavorModal();
+            addDirectToCart(name, price);
+        }
     </script>
 
 </body>
